@@ -1,7 +1,7 @@
 package com.projectd.interpreter.lex;
 
 import com.projectd.interpreter.lex.token.*;
-import com.projectd.interpreter.shared.exception.ExceptionFactory;
+import com.projectd.interpreter.shared.exception.SyntaxExceptionFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +77,7 @@ public class LexicalAnalyserImpl implements LexicalAnalyser {
                             lexTokenList.add(new LexToken(LexTokenSpan.of(i, j), LexTokenCode.ASSIGNMENT));
                             j += 1;
                         } else {
-                            throw ExceptionFactory.badIdentifier(i, j);
+                            throw SyntaxExceptionFactory.badIdentifier(i, j);
                         }
                         break;
                     case '{':
@@ -435,7 +435,7 @@ public class LexicalAnalyserImpl implements LexicalAnalyser {
                         } else if (LITERAL_TOKEN_PATTERN.matcher(identifierOrLiteralSt).matches()) {
                             lexTokenList.add(new LexIdentifierToken(identifierOrLiteralSt, LexTokenSpan.of(i, j - count)));
                         } else {
-                            throw ExceptionFactory.badIdentifier(i, j);
+                            throw SyntaxExceptionFactory.badIdentifier(i, j);
                         }
 
                         j--;
@@ -459,7 +459,7 @@ public class LexicalAnalyserImpl implements LexicalAnalyser {
             return new LexIdentifierToken(identifier.toString(), LexTokenSpan.of(i, j - counter));
         }
 
-        throw ExceptionFactory.badIdentifier(i, j);
+        throw SyntaxExceptionFactory.badIdentifier(i, j);
     }
 
     public boolean charIsSpaceOrEOF(int i, int j, List<String> sourceLines) {
